@@ -36,8 +36,9 @@ import litellm
 # ==============================================================================
 # Configuración del modelo (Bedrock - Claude)
 # ==============================================================================
-os.environ["AWS_BEARER_TOKEN_BEDROCK"] = open("bedrock.txt").readline().strip()
 os.environ["AWS_REGION_NAME"] = "us-east-1"
+# AWS_BEARER_TOKEN_BEDROCK se lee de la variable de entorno ya configurada.
+# Exportala antes de ejecutar: export AWS_BEARER_TOKEN_BEDROCK="tu_token"
 
 model = LiteLLMModel(
     model_id="bedrock/converse/us.anthropic.claude-sonnet-4-20250514-v1:0",
