@@ -1,5 +1,5 @@
 """
-Agente  - RAG con personalidad generada dinámicamente (Gradio)
+Agente 07 - RAG con personalidad generada dinámicamente (Gradio)
 =================================================================
 Versión del agente RAG donde la personalidad de Pink Panther se genera
 dinámicamente usando un "pre-agente": una llamada previa al LLM que lee
@@ -20,7 +20,7 @@ Usa:
 - Gradio: Para la interfaz de chat en el navegador
 
 Ejecutar:
-    python agente07.py
+    python app.py
 
 Se abrirá una interfaz web en http://localhost:7860
 """
@@ -43,6 +43,8 @@ os.environ["AWS_REGION_NAME"] = "us-east-1"
 model = LiteLLMModel(
     model_id="bedrock/converse/us.anthropic.claude-sonnet-4-20250514-v1:0",
     aws_region_name="us-east-1",
+    temperature=0.9,
+    top_p=0.95,
 )
 
 # ==============================================================================
@@ -170,16 +172,13 @@ DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kbpink")
 
 
 def load_markdown_documents(directory: str) -> list[dict]:
-    """Carga todos los archivos .md del directorio, excluyendo elprincipito.md."""
+    """Carga todos los archivos .md del directorio."""
     documents = []
     md_files = sorted(glob.glob(os.path.join(directory, "*.md")))
     for filepath in md_files:
-        filename = os.path.basename(filepath)
-        # Excluir elprincipito.md: solo se usa en la Fase 1 (generación de personalidad)
-        if filename == "elprincipito.md":
-            continue
         with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
+        filename = os.path.basename(filepath)
         documents.append({
             "content": content,
             "filename": filename,
