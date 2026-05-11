@@ -1,0 +1,6 @@
+smolagents
+litellm
+chromadb
+sentence-transformers
+gradio
+boto3
