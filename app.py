@@ -20,7 +20,7 @@ Usa:
 - Gradio: Para la interfaz de chat en el navegador
 
 Ejecutar:
-    python agente07.py
+    python app.py
 
 Se abrirá una interfaz web en http://localhost:7860
 """
