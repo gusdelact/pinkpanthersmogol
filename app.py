@@ -1,5 +1,5 @@
 """
-Agente 07 - RAG con personalidad generada dinámicamente (Gradio)
+Agente  - RAG con personalidad generada dinámicamente (Gradio)
 =================================================================
 Versión del agente RAG donde la personalidad de Pink Panther se genera
 dinámicamente usando un "pre-agente": una llamada previa al LLM que lee
@@ -20,7 +20,7 @@ Usa:
 - Gradio: Para la interfaz de chat en el navegador
 
 Ejecutar:
-    python app.py
+    python agente07.py
 
 Se abrirá una interfaz web en http://localhost:7860
 """
@@ -170,13 +170,16 @@ DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kbpink")
 
 
 def load_markdown_documents(directory: str) -> list[dict]:
-    """Carga todos los archivos .md del directorio."""
+    """Carga todos los archivos .md del directorio, excluyendo elprincipito.md."""
     documents = []
     md_files = sorted(glob.glob(os.path.join(directory, "*.md")))
     for filepath in md_files:
+        filename = os.path.basename(filepath)
+        # Excluir elprincipito.md: solo se usa en la Fase 1 (generación de personalidad)
+        if filename == "elprincipito.md":
+            continue
         with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
-        filename = os.path.basename(filepath)
         documents.append({
             "content": content,
             "filename": filename,
